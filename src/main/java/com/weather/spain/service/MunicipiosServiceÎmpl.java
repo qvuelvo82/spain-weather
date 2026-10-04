@@ -28,14 +28,7 @@ public class MunicipiosServiceÎmpl implements MunicipiosService{
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         logger.info("Inicio llamada AEMET...");
-        try {
-            HttpResponse<String> response = HttpClient.newHttpClient().send(requestLink, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException ioex){
-            logger.info("[IOException]" + ioex.getMessage());
-        }catch (InterruptedException intEx){
-            logger.info("[InterruptedException]"+intEx.getMessage());
-
-        }
+        HttpResponse<String> response = HttpClient.newHttpClient().send(requestLink, HttpResponse.BodyHandlers.ofString());
         logger.info("Fin llamada AEMET con body: " + response.body());
 
         ObjectMapper mapper = new ObjectMapper();
