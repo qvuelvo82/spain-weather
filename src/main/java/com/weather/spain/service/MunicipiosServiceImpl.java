@@ -14,6 +14,7 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static java.lang.Integer.parseInt;
 import static java.net.http.HttpClient.newHttpClient;
 
 @Service
@@ -31,6 +32,21 @@ public class MunicipiosServiceImpl implements MunicipiosService{
         String urlDatos = getURLDatosMunicipiosAEMET(token);
         return getAllMunicipiosAEMET(token, urlDatos);
     }
+
+    @Override
+    public List<MunicipioDTO> getAllMunicipiosPopulationSort(String jwt) {
+        String urlDatos = getURLDatosMunicipiosAEMET(jwt);
+        return getAllMunicipiosAEMET(jwt, urlDatos).stream()
+                .sorted((o1, o2) -> {
+                    if (parseInt(o1.getNum_hab()) > parseInt(o2.getNum_hab())) {
+                        return -1;
+                    } else if (parseInt(o1.getNum_hab()) < parseInt(o2.getNum_hab())) {
+                        return 1;
+                    }
+                    return 0;
+                }).toList();
+    }
+
     private List<MunicipioDTO> getAllMunicipiosAEMET(String token,String urlDatos) {
         logger.info("Inicio llamada link municipios AEMET: " +  urlDatos);
         HttpResponse<?> response = invokeAEMETURL(token,urlDatos);

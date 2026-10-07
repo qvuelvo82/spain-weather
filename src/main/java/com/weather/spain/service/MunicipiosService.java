@@ -9,4 +9,5 @@ public interface MunicipiosService {
 
     List<MunicipioDTO> getAllMunicipios(String token) throws IOException, InterruptedException;
 
+    List<MunicipioDTO> getAllMunicipiosPopulationSort(String jwt);
 }
